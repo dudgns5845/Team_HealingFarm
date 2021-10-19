@@ -67,3 +67,4 @@ obj/
 *.csproj
 *.sln
 .vsconfig
+Assets\Firebase\Plugins\x86_64/FirebaseCppApp-8_4_0.so
