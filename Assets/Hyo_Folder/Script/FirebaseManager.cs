@@ -18,53 +18,62 @@ public class FirebaseManager : MonoBehaviour
     
     Firebase.Auth.FirebaseAuth auth;
 
-
+    
     void Awake()
     {     
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
     }
 
+    
     // 회원가입
     public void SignUp()
-    {
-       
+    {    
         if (emailInput.text.Length != 0 && passInput.text.Length != 0)
         {
-            auth.CreateUserWithEmailAndPasswordAsync(emailInput.text, passInput.text).ContinueWith(
-                task =>
-                {
-                    if (!task.IsCanceled && !task.IsFaulted)
-                    {
-                        resultText.text = "회원가입 성공!";
-                    }
-                    else
-                    {
-                        resultText.text = "회원가입 실패ㅠ";
-                    }
-                });
+            StartCoroutine(Register(emailInput.text, passInput.text));            
+        }
+    }
+
+    IEnumerator Register(string email, string password)
+    {
+        var task = auth.CreateUserWithEmailAndPasswordAsync(email, password);
+        yield return new WaitUntil(() => task.IsCompleted);
+        if (task.Exception == null)
+        {
+            resultText.text = "회원가입 성공!";
+        }
+        else
+        {
+            resultText.text = "회원가입 실패ㅠ" + task.Exception;
         }
     }
 
     // 로그인
     public void SignIn()
-    {
-        
+    {      
         if (emailInput.text.Length != 0 && passInput.text.Length != 0)
         {
-            auth.SignInWithEmailAndPasswordAsync(emailInput.text, passInput.text).ContinueWith(
-                task =>
-                {
-                    if (task.IsCompleted && !task.IsCanceled && !task.IsFaulted)
-                    {
-                        Firebase.Auth.FirebaseUser newUser = task.Result;
-                        resultText.text = "로그인 성공!";
-                    }
-                    else
-                    {
-                        resultText.text = "로그인 실패ㅠ";
-                    }
-                });
+            StartCoroutine(Login(emailInput.text, passInput.text));         
         }
     }
+
+
+    IEnumerator Login(string email, string password)
+    {
+        var task = auth.SignInWithEmailAndPasswordAsync(email, password);
+        yield return new WaitUntil(() => task.IsCompleted);
+
+        if (task.Exception == null)
+        {
+            Firebase.Auth.FirebaseUser newUser = task.Result;
+            resultText.text = "로그인 성공!";
+        }
+        else
+        {
+            resultText.text = "로그인 실패ㅠ" + task.Exception;
+        }
+    }
+
+   
 
 }
