@@ -13933,6 +13933,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1812935899}
+        m_TargetAssemblyTypeName: ScrollAndPinch_Rio, Assembly-CSharp
+        m_MethodName: ResetView
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &937042871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26732,6 +26744,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 273202212}
     m_Modifications:
+    - target: {fileID: 2028636461803998243, guid: 538b0959ff351ca45bffcd2f52341792, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2028636461804032003, guid: 538b0959ff351ca45bffcd2f52341792, type: 3}
       propertyPath: m_RootOrder
       value: 123
