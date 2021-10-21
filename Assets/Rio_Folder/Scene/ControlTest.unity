@@ -4597,6 +4597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 721616070}
+  Rotate: 1
 --- !u!4 &661801413
 Transform:
   m_ObjectHideFlags: 0

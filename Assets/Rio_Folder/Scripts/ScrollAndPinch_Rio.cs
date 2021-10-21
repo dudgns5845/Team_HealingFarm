@@ -20,6 +20,7 @@ public class ScrollAndPinch_Rio : MonoBehaviour
 
     private void Update()
     {
+
         //Update Plane
         if(Input.touchCount >= 1)
         {
@@ -95,4 +96,11 @@ public class ScrollAndPinch_Rio : MonoBehaviour
         return Vector3.zero;
     }
 #endif
+
+    public Transform StartSpot;
+    public void ResetView()
+    {
+        Camera.main.transform.position = StartSpot.position;
+        Camera.main.transform.forward = StartSpot.forward;
+    }
 }
