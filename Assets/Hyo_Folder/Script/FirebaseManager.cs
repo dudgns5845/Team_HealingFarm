@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FirebaseManager : MonoBehaviour
@@ -66,7 +67,11 @@ public class FirebaseManager : MonoBehaviour
         if (task.Exception == null)
         {
             Firebase.Auth.FirebaseUser newUser = task.Result;
-            resultText.text = "로그인 성공!";
+            resultText.text = "로그인 성공! Play씬으로 이동합니다...";
+            //yh추가
+            yield return new WaitForSeconds(2f);
+            SceneManager.LoadScene(1);
+
         }
         else
         {
