@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
+  <string name="gcm_defaultSenderId" translatable="false">637822915800</string>
+  <string name="google_storage_bucket" translatable="false">healing-farm.appspot.com</string>
+  <string name="project_id" translatable="false">healing-farm</string>
+  <string name="google_api_key" translatable="false">AIzaSyAs8EdiUagAsqPWAYk7fFB9tknuX6vNAWA</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAs8EdiUagAsqPWAYk7fFB9tknuX6vNAWA</string>
+  <string name="google_app_id" translatable="false">1:637822915800:android:c536fca091da1d5e3c33ad</string>
+  <string name="default_web_client_id" translatable="false">637822915800-gm1qkkm04ooa7jpnkmppcbdd2hd1mbfb.apps.googleusercontent.com</string>
+</resources>

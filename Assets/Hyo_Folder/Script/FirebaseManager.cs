@@ -2,6 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Firebase;
+using Firebase.Database;
+
+//public class User
+//{
+//    public string username;
+
+//    public User()
+//    {
+//    }
+
+//    public User(string username)
+//    {
+//        this.username = username;
+//    }
+//}
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -15,6 +31,10 @@ public class FirebaseManager : MonoBehaviour
     [SerializeField]
     Text resultText;
 
+    public GameObject PopUp;
+    [SerializeField]
+    InputField NickName;
+
     
     Firebase.Auth.FirebaseAuth auth;
 
@@ -24,7 +44,11 @@ public class FirebaseManager : MonoBehaviour
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
     }
 
-    
+    private void Start()
+    {
+        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
+    }
+
     // 회원가입
     public void SignUp()
     {    
@@ -38,15 +62,18 @@ public class FirebaseManager : MonoBehaviour
     {
         var task = auth.CreateUserWithEmailAndPasswordAsync(email, password);
         yield return new WaitUntil(() => task.IsCompleted);
+
         if (task.Exception == null)
         {
-            resultText.text = "회원가입 성공!";
+            resultText.text = "회원가입 성공!";           
         }
         else
         {
-            resultText.text = "회원가입 실패ㅠ" + task.Exception;
+            resultText.text = "회원가입 실패ㅠ";
         }
     }
+
+   
 
     // 로그인
     public void SignIn()
@@ -67,13 +94,28 @@ public class FirebaseManager : MonoBehaviour
         {
             Firebase.Auth.FirebaseUser newUser = task.Result;
             resultText.text = "로그인 성공!";
+            
+            PopUp.SetActive(true);
         }
         else
         {
-            resultText.text = "로그인 실패ㅠ" + task.Exception;
+            resultText.text = "로그인 실패ㅠ";
         }
     }
 
-   
+    //DatabaseReference dataRef;
+    //private void writeNewUser(string username)
+    //{
+    //    User user = new User(username);
+    //    string json = JsonUtility.ToJson(user);
+
+    //    dataRef.Child("users").Child(username).SetRawJsonValueAsync(json);
+    //}
+
+    //public void CreateUserBnt()
+    //{
+    //    writeNewUser(NickName.text);
+    //}
+
 
 }
