@@ -3,35 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Firebase;
+using Firebase.Database;
+
+//public class User
+//{
+//    public string username;
+
+//    public User()
+//    {
+//    }
+
+//    public User(string username)
+//    {
+//        this.username = username;
+//    }
+//}
 
 public class FirebaseManager : MonoBehaviour
 {
-    // ÀÌ¸ÞÀÏ
+    // ï¿½Ì¸ï¿½ï¿½ï¿½
     [SerializeField]
     InputField emailInput;
-    // ºñ¹Ð¹øÈ£
+    // ï¿½ï¿½ï¿½Ð¹ï¿½È£
     [SerializeField]
     InputField passInput;
-    // °á°ú
+    // ï¿½ï¿½ï¿½ï¿½
     [SerializeField]
     Text resultText;
 
-    
+    public GameObject PopUp;
+    [SerializeField]
+    InputField NickName;
+
+
     Firebase.Auth.FirebaseAuth auth;
 
-    
+
     void Awake()
-    {     
+    {
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
     }
 
-    
-    // È¸¿ø°¡ÀÔ
+    private void Start()
+    {
+        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
+    }
+
+    // È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public void SignUp()
-    {    
+    {
         if (emailInput.text.Length != 0 && passInput.text.Length != 0)
         {
-            StartCoroutine(Register(emailInput.text, passInput.text));            
+            StartCoroutine(Register(emailInput.text, passInput.text));
         }
     }
 
@@ -39,22 +63,25 @@ public class FirebaseManager : MonoBehaviour
     {
         var task = auth.CreateUserWithEmailAndPasswordAsync(email, password);
         yield return new WaitUntil(() => task.IsCompleted);
+
         if (task.Exception == null)
         {
-            resultText.text = "È¸¿ø°¡ÀÔ ¼º°ø!";
+            resultText.text = "È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!";
         }
         else
         {
-            resultText.text = "È¸¿ø°¡ÀÔ ½ÇÆÐ¤Ð" + task.Exception;
+            resultText.text = "È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¤ï¿½";
         }
     }
 
-    // ·Î±×ÀÎ
+
+
+    // ï¿½Î±ï¿½ï¿½ï¿½
     public void SignIn()
-    {      
+    {
         if (emailInput.text.Length != 0 && passInput.text.Length != 0)
         {
-            StartCoroutine(Login(emailInput.text, passInput.text));         
+            StartCoroutine(Login(emailInput.text, passInput.text));
         }
     }
 
@@ -67,18 +94,31 @@ public class FirebaseManager : MonoBehaviour
         if (task.Exception == null)
         {
             Firebase.Auth.FirebaseUser newUser = task.Result;
-            resultText.text = "·Î±×ÀÎ ¼º°ø! Play¾ÀÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù...";
-            //yhÃß°¡
+            resultText.text = "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½! Playï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Õ´Ï´ï¿½...";
+            //yhï¿½ß°ï¿½
             yield return new WaitForSeconds(2f);
             SceneManager.LoadScene(1);
 
         }
         else
         {
-            resultText.text = "·Î±×ÀÎ ½ÇÆÐ¤Ð" + task.Exception;
+            resultText.text = "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¤ï¿½";
         }
     }
 
-   
+    //DatabaseReference dataRef;
+    //private void writeNewUser(string username)
+    //{
+    //    User user = new User(username);
+    //    string json = JsonUtility.ToJson(user);
+
+    //    dataRef.Child("users").Child(username).SetRawJsonValueAsync(json);
+    //}
+
+    //public void CreateUserBnt()
+    //{
+    //    writeNewUser(NickName.text);
+    //}
+
 
 }
