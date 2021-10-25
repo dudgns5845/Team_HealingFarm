@@ -81,13 +81,19 @@ public class FirebaseManager : MonoBehaviour
             resultText.text = "Welcome";
             //scene load
             yield return new WaitForSeconds(2f);
-            SceneManager.LoadScene(1);
+
+            DataBaseManager.instance.GetUserInfo(GetUserText);
 
         }
         else
         {
             resultText.text = "Log In Failed";
         }
+    }
+
+    void GetUserText(bool result)
+    {
+        SceneManager.LoadScene(1);
     }
 
    
