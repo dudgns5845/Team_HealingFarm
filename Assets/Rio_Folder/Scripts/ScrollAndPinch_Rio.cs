@@ -20,9 +20,10 @@ public class ScrollAndPinch_Rio : MonoBehaviour
 
     private void Update()
     {
+        TouchAnimal();
 
         //Update Plane
-        if(Input.touchCount >= 1)
+        if (Input.touchCount >= 1)
         {
             Plane.SetNormalAndPosition(transform.up, transform.position);
         }
@@ -103,4 +104,46 @@ public class ScrollAndPinch_Rio : MonoBehaviour
         Camera.main.transform.position = StartSpot.position;
         Camera.main.transform.forward = StartSpot.forward;
     }
+
+
+    enum ANI_NAME
+    {
+        Bounce,
+        Clicked,
+        Run,
+        Fly,
+        Peck,
+        Roll,
+        Spin
+    }
+    //스크린 터치시 ray 발사
+    public void TouchAnimal()
+    {
+        //미터치시 종료
+        if (Input.touchCount == 0) return;
+
+        //터치 시 작동
+        Touch touch = Input.GetTouch(0);
+        //터치 시작시
+        if (touch.phase == TouchPhase.Began)
+        {
+            Ray ray;
+            RaycastHit hitobj;
+            ray = Camera.main.ScreenPointToRay(touch.position);
+
+            //Ray를 통한 오브젝트 인식
+            if (Physics.Raycast(ray, out hitobj))
+            {
+                //터치한 곳의 오브젝트 태그가 animal이면
+                if (hitobj.transform.tag == "Animal")
+                {
+                    Animator animator = hitobj.transform.gameObject.GetComponentInChildren<Animator>();
+                    string animation = ((ANI_NAME)Random.Range(0, 7)).ToString();
+                    animator.SetTrigger(animation);
+
+                }
+            }
+        }
+    }
 }
+
