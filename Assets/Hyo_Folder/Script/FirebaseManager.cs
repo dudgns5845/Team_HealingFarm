@@ -93,8 +93,7 @@ public class FirebaseManager : MonoBehaviour
 
     void GetUserText(bool result)
     {
-        SceneManager.LoadScene(1);
-    }
+        SceneManager.LoadScene(1);    }
 
    
 
