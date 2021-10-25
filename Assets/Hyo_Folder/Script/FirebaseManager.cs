@@ -3,22 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Firebase;
-using Firebase.Database;
-
-//public class User
-//{
-//    public string username;
-
-//    public User()
-//    {
-//    }
-
-//    public User(string username)
-//    {
-//        this.username = username;
-//    }
-//}
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -47,7 +31,7 @@ public class FirebaseManager : MonoBehaviour
 
     private void Start()
     {
-        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
+        
     }
 
     // Sign up
@@ -106,19 +90,6 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
-    //DatabaseReference dataRef;
-    //private void writeNewUser(string username)
-    //{
-    //    User user = new User(username);
-    //    string json = JsonUtility.ToJson(user);
-
-    //    dataRef.Child("users").Child(username).SetRawJsonValueAsync(json);
-    //}
-
-    //public void CreateUserBnt()
-    //{
-    //    writeNewUser(NickName.text);
-    //}
-
+   
 
 }
