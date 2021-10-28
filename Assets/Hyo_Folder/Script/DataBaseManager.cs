@@ -194,4 +194,73 @@ public class DataBaseManager : MonoBehaviour
         }
     }
 
+    //Get friends
+    public void GetFriend(Action<bool> complete)
+    {
+        StartCoroutine(IGetFriend(complete));
+    }
+    IEnumerator IGetFriend(Action<bool> complete)
+    {
+        string path = "USER_INFO" + FirebaseAuth.DefaultInstance.CurrentUser.UserId + "/Friends";
+        var task = dataBase.GetReference(path).GetValueAsync();
+        yield return new WaitUntil(() => task.IsCompleted);
+        if (task.Exception == null)
+        {
+            if (task.Result.Exists)
+            {
+                print(task.Result.GetRawJsonValue());
+                print("친구 정보 가져오기 성공");
+                User = JsonUtility.FromJson<User>(task.Result.GetRawJsonValue());
+
+                Debug.Log("닉네임: " + User.nickName + ", 농장 이름: " + User.mapName);
+                complete(true);
+            }
+            else
+            {
+                print("친구 정보 없음");
+
+                SaveUser((result) =>
+                {
+                    // Firebase와 통신 끝나면 들어온다
+                    complete(true);
+                });
+
+            }
+        }
+    }
+    //add firends
+    [Serializable]
+    public class Friend
+    {
+        public string nickNameF = "";
+    }
+
+    public Friend friend;
+    public void AddFriend(Action<bool> complete)
+    {
+
+        StartCoroutine(IAddFriend(complete));
+    }
+
+    IEnumerator IAddFriend(Action<bool> complete)
+    {
+        string json = JsonUtility.ToJson(friend);
+
+        //경로
+        string path = "USER_INFO/Friends/" + FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        var task = dataBase.GetReference(path).SetRawJsonValueAsync(json);
+        yield return new WaitUntil(() => task.IsCompleted);
+        if (task.Exception == null)
+        {
+            print("친구 추가 성공");
+            complete(true);
+        }
+        else
+        {
+            print("친구 추가 실패 : " + task.Exception);
+            complete(false);
+        }
+    }
+
+
 }

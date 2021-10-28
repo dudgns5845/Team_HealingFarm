@@ -8,6 +8,23 @@ public class GameManager_HYO : MonoBehaviour
     public Text nickName;
     public Text mapName;
 
+    public InputField friendName;
+
+    //friendsInfo
+    public GameObject friendscrollView;
+    public void OnClickFriendsBtn()
+    {
+        friendscrollView.SetActive(true);
+    }
+    public void ExitFriendsView()
+    {
+        friendscrollView.SetActive(false);
+    }
+    public void AddFriendBtn()
+    {
+        DataBaseManager.instance.friend.nickNameF = friendName.text;
+    }
+
     void Start()
     {
         nickName.text = DataBaseManager.instance.User.nickName;
@@ -18,6 +35,7 @@ public class GameManager_HYO : MonoBehaviour
 
     public GameObject[] items;
     
+    //itemPlace
     void GetMap(bool result)
     {
         List<ItemInfo> itemDatas = DataBaseManager.instance.itemDatas;
@@ -40,6 +58,9 @@ public class GameManager_HYO : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1)) selectItem = 0;
         if (Input.GetKeyDown(KeyCode.Alpha2)) selectItem = 1;
         if (Input.GetKeyDown(KeyCode.Alpha3)) selectItem = 2;
+        if (Input.GetKeyDown(KeyCode.Alpha4)) selectItem = 3;
+        if (Input.GetKeyDown(KeyCode.Alpha5)) selectItem = 4;
+        if (Input.GetKeyDown(KeyCode.Alpha6)) selectItem = 5;
 
         if (Input.GetMouseButtonDown(0))
         {
