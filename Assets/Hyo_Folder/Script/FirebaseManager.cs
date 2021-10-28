@@ -20,6 +20,7 @@ public class FirebaseManager : MonoBehaviour
     Text loginResult;
 
     public GameObject PopUp;
+    public GameObject animalBG;
     [SerializeField]
     InputField NickName;
     [SerializeField]
@@ -122,6 +123,7 @@ public class FirebaseManager : MonoBehaviour
         }
         else
         {
+            animalBG.SetActive(false);
             PopUp.SetActive(true);
         }
         
