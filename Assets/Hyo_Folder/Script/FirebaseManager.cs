@@ -138,14 +138,6 @@ public class FirebaseManager : MonoBehaviour
         DataBaseManager.instance.SaveUser(GetUserText);
     }
 
-    //add friend
-    [SerializeField]
-    InputField friendName;
-
-    public void AddFriendBtn()
-    {
-
-    }
-
+    
 
 }

@@ -8,22 +8,6 @@ public class GameManager_HYO : MonoBehaviour
     public Text nickName;
     public Text mapName;
 
-    public InputField friendName;
-
-    //friendsInfo
-    public GameObject friendscrollView;
-    public void OnClickFriendsBtn()
-    {
-        friendscrollView.SetActive(true);
-    }
-    public void ExitFriendsView()
-    {
-        friendscrollView.SetActive(false);
-    }
-    public void AddFriendBtn()
-    {
-        DataBaseManager.instance.friend.nickNameF = friendName.text;
-    }
 
     void Start()
     {
@@ -33,7 +17,7 @@ public class GameManager_HYO : MonoBehaviour
         DataBaseManager.instance.GetMapInfo(GetMap);
     }
 
-    public GameObject[] items;
+    
     
     //itemPlace
     void GetMap(bool result)
@@ -51,6 +35,7 @@ public class GameManager_HYO : MonoBehaviour
 
     }
 
+    public GameObject[] items;
     public int selectItem;
     void Update()
     {
@@ -90,4 +75,31 @@ public class GameManager_HYO : MonoBehaviour
         DataBaseManager.instance.SaveMap(SaveMap);
 
     }
+
+    //friendsInfo
+
+    public InputField friendName;
+
+    public GameObject friendscrollView;
+    public void OnClickFriendsBtn()
+    {
+        friendscrollView.SetActive(true);
+    }
+    public void ExitFriendsView()
+    {
+        friendscrollView.SetActive(false);
+    }
+    
+    //add friend
+    void GetFriendText(bool result)
+    {
+
+    }
+
+    public void AddFriendBtn()
+    {
+        DataBaseManager.instance.friend.nickNameF = friendName.text;
+        DataBaseManager.instance.AddFriend(GetFriendText);
+    }
+
 }

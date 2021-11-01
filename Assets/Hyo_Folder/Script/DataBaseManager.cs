@@ -77,6 +77,7 @@ public class DataBaseManager : MonoBehaviour
 
         //경로
         string path = "USER_INFO/" + FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        string pathF = "USER_INFO/" +User.nickName;
         var task = dataBase.GetReference(path).SetRawJsonValueAsync(json);
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception == null)
@@ -143,6 +144,7 @@ public class DataBaseManager : MonoBehaviour
 
         //경로
         string path = "USER_INFO/" + FirebaseAuth.DefaultInstance.CurrentUser.UserId + "/MAP_INFO";
+        string pathF = "USER_INFO/" + User.nickName + "/";
         var task = dataBase.GetReference(path).SetRawJsonValueAsync(json);
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception == null)
@@ -201,7 +203,7 @@ public class DataBaseManager : MonoBehaviour
     }
     IEnumerator IGetFriend(Action<bool> complete)
     {
-        string path = "USER_INFO" + FirebaseAuth.DefaultInstance.CurrentUser.UserId + "/Friends";
+        string path = "USER_INFO/" + FirebaseAuth.DefaultInstance.CurrentUser.UserId + "/Friends";
         var task = dataBase.GetReference(path).GetValueAsync();
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception == null)
@@ -238,7 +240,6 @@ public class DataBaseManager : MonoBehaviour
     public Friend friend;
     public void AddFriend(Action<bool> complete)
     {
-
         StartCoroutine(IAddFriend(complete));
     }
 
@@ -247,7 +248,7 @@ public class DataBaseManager : MonoBehaviour
         string json = JsonUtility.ToJson(friend);
 
         //경로
-        string path = "USER_INFO/Friends/" + FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        string path = "USER_INFO/" + FirebaseAuth.DefaultInstance.CurrentUser.UserId + "/Friends";
         var task = dataBase.GetReference(path).SetRawJsonValueAsync(json);
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception == null)
