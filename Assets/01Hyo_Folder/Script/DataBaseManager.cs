@@ -5,6 +5,7 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Auth;
 using System;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class EndTime
@@ -251,6 +252,7 @@ public class DataBaseManager : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception == null)
         {
+
             print("맵 정보 저장 완료");
             complete(true);
         }
@@ -273,6 +275,7 @@ public class DataBaseManager : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception == null)
         {
+            
             if (task.Result.Exists)
             {
                 print(task.Result.GetRawJsonValue());
@@ -280,8 +283,7 @@ public class DataBaseManager : MonoBehaviour
                 ItemDataJson = JsonUtility.FromJson<ItemDataJson>(task.Result.GetRawJsonValue());
                 
                 itemDatas = ItemDataJson.itemdatajsons;
-
-                
+        
                 complete(true);
             }
             else

@@ -21,6 +21,7 @@ public class FirebaseManager : MonoBehaviour
 
     public GameObject PopUp;
     public GameObject animalBG;
+    public GameObject loadingCanv;
     [SerializeField]
     InputField NickName;
     [SerializeField]
@@ -34,28 +35,9 @@ public class FirebaseManager : MonoBehaviour
         auth = FirebaseAuth.DefaultInstance;
         //auth.StateChanged += AuthStateChanged;
 
-        emailInput.text = "a@naver.com";
-        passInput.text = "123456";
+        //emailInput.text = "a@naver.com";
+        //passInput.text = "123456";
     }
-
-    //void AuthStateChanged(object sender, System.EventArgs eventArgs)
-    //{
-    //    if (auth.CurrentUser != authUser)
-    //    {
-    //        bool signedIn = authUser != auth.CurrentUser && auth.CurrentUser != null;
-    //        if (!signedIn && authUser != null)
-    //        {
-    //            Debug.Log("Signed out " + authUser.UserId);
-    //        }
-    //        authUser = auth.CurrentUser;
-    //        if (signedIn)
-    //        {
-    //            Debug.Log("Signed in " + authUser.UserId);
-    //            loginResult.text = authUser.UserId + " Active ";
-
-    //        }
-    //    }
-    //}
 
     // Sign up
     public void SignUp()
@@ -102,7 +84,7 @@ public class FirebaseManager : MonoBehaviour
         {
             Firebase.Auth.FirebaseUser newUser = task.Result;
             resultText.text = "Welcome";
-            //scene load
+
             yield return new WaitForSeconds(2f);
 
             DataBaseManager.instance.GetUserInfo(GetUserText);
@@ -119,7 +101,10 @@ public class FirebaseManager : MonoBehaviour
     {
         if(DataBaseManager.instance.User.nickName.Length > 0)
         {
-            SceneManager.LoadScene(1);
+            animalBG.SetActive(false);
+            loadingCanv.SetActive(true);
+
+            LoadingSceneManager.LoadScene(1);
         }
         else
         {
@@ -136,6 +121,8 @@ public class FirebaseManager : MonoBehaviour
         DataBaseManager.instance.User.mapName = MapName.text;
 
         DataBaseManager.instance.SaveUser(GetUserText);
+
+        LoadingSceneManager.LoadScene(1);
     }
 
     

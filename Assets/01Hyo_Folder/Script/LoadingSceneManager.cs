@@ -1,0 +1,62 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class LoadingSceneManager : MonoBehaviour
+{
+    public static int nextScene;
+
+    [SerializeField]
+    Image progressBar;
+
+    private void Start()
+    {
+        
+    }
+
+    public static void LoadScene(int index)
+    {
+        nextScene = index;
+        SceneManager.LoadScene("DemoScene");
+    }
+    IEnumerator LoadScene()
+    {
+        yield return null;
+        AsyncOperation op;
+        op = SceneManager.LoadSceneAsync(nextScene);
+        op.allowSceneActivation = false;
+        float timer = 0.0f;
+
+        while (!op.isDone)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+
+            if(op.progress < 0.9f)
+            {
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, op.progress, timer);
+                if (progressBar.fillAmount >= op.progress)
+                {
+                    timer = 0.0f;
+                }
+                //progressBar.fillAmount = op.progress;
+
+            }
+            else
+            {
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
+                if (progressBar.fillAmount == 1.0f)
+                {
+                    op.allowSceneActivation = true;
+                    yield break;
+                }
+
+                //progressBar.fillAmount = 1;
+                //op.allowSceneActivation = true;
+                //yield break;
+            }
+        }
+    }
+}

@@ -6,12 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Hyo_Folder/Scene/AuthScene.unity
+    path: Assets/01Hyo_Folder/Scene/AuthScene.unity
     guid: 5d387b368d1359246960e66cb44d403d
   - enabled: 1
-    path: Assets/Rio_Folder/Scene/DemoScene.unity
+    path: Assets/01Hyo_Folder/Scene/DemoScene.unity
     guid: 2c21f5ae7bdebac4f8b7764f0d85e4ff
-  - enabled: 1
-    path: Assets/Hyo_Folder/Scene/LodingScene.unity
-    guid: 32cafefefbd30314395502134b4a634e
   m_configObjects: {}

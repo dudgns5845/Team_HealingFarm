@@ -4,18 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GameManager_HYO : MonoBehaviour
-{
-    
+{   
     public Text nickName;
     public Text mapName;
-
     void Start()
     {
         print(DateTime.Now);
-       
-
 
         //시간 차 계산 (coin)
         DataBaseManager.instance.GetTimeCoin(GetCoinText);
@@ -26,9 +23,21 @@ public class GameManager_HYO : MonoBehaviour
         mapName.text = DataBaseManager.instance.User.mapName;
 
         DataBaseManager.instance.GetMapInfo(GetMap);
-
+        
     }
 
+    //item market
+    public Button[] marketItems;
+    public GameObject marketPopUp;
+
+    public void MarketSystem()
+    {
+        marketPopUp.SetActive(true);
+    }
+    public void BuyBtn()
+    {
+
+    }
 
     //coin 
     public int goneTime;
@@ -59,10 +68,10 @@ public class GameManager_HYO : MonoBehaviour
 
         start = DateTime.Now;
         userIndate = DataBaseManager.instance.SetDate(DataBaseManager.instance.exitTimeJson);
-        print("원래 있던거: " + userIndate);
+
         timeSpan = start - userIndate;
         goneTime = (int)timeSpan.TotalMinutes; //minutes Diff
-        print("한번 봅시다  - " + goneTime);
+
 
         myCurrCoinJson = DataBaseManager.instance.exitTimeJson.myCurrCoin;
         myCoin += myCurrCoinJson + (goneTime * coinPerM);
@@ -71,12 +80,12 @@ public class GameManager_HYO : MonoBehaviour
         string coinString = myCoin.ToString();
         myCoinText.text = coinString;
 
-        //뒤로가기 누르면 종료 로딩 화면
+        
         if (Application.platform == RuntimePlatform.Android)
         {
             if (Input.GetKey(KeyCode.Escape))
             {
-                SceneManager.LoadScene("LodingScene");
+                Application.Quit();
             }
         }
     }
@@ -91,6 +100,8 @@ public class GameManager_HYO : MonoBehaviour
         //DataBaseManager.instance.exitTimeJson.exitTime = exit;
         DataBaseManager.instance.exitTimeJson.myCurrCoin = myCoin;
         DataBaseManager.instance.SaveTimeCoin(GetCoinText);
+
+        Application.Quit();
     }
 
     //inventory
@@ -104,9 +115,20 @@ public class GameManager_HYO : MonoBehaviour
         else
         {
             inventory.SetActive(false);
+        }       
+    }
+    //Market
+    public GameObject market;
+    public void OnclickMarket()
+    {
+        if (market.activeSelf == false)
+        {
+            market.SetActive(true);
         }
-        
-
+        else
+        {
+            market.SetActive(false);
+        }
     }
 
     //itemPlace
@@ -120,9 +142,7 @@ public class GameManager_HYO : MonoBehaviour
             item.transform.position = itemDatas[i].pos;
 
             item.transform.eulerAngles = itemDatas[i].rot;
-
         }
-
     }
 
     //select item
@@ -130,78 +150,60 @@ public class GameManager_HYO : MonoBehaviour
     public Button[] itemBtns;
     public int selectItem;
 
-    //touch
-    private Touch tempTouchs;
-    private Vector3 touchedPos;
-
-    private bool touchOn;
-
-    public void SelectItemBtn()
+    public void ItemBench1()
     {
-        for(int i = 0; i < itemBtns.Length; i++)
-        {
-            if(itemBtns[i] == gameObject)
-            {
-                selectItem = i;
-            }
-        }
+        selectItem = 0;
     }
-  
+    public void ItemBench2()
+    {
+        selectItem = 1;
+    }
+    public void fence()
+    {
+        selectItem = 2;
+    }
+    public void lightHolder()
+    {
+        selectItem = 3;
+    }
+    public void house()
+    {
+        selectItem = 4;
+    }
+    public void tree()
+    {
+        selectItem = 5;
+    }
+
     void Update()
     {
         //coin text
         string coinString = myCoin.ToString();
         myCoinText.text = coinString;
-
-       
-        //if (Input.GetKeyDown(KeyCode.Alpha1)) selectItem = 0;
-        //if (Input.GetKeyDown(KeyCode.Alpha2)) selectItem = 1;
-        //if (Input.GetKeyDown(KeyCode.Alpha3)) selectItem = 2;
-        //if (Input.GetKeyDown(KeyCode.Alpha4)) selectItem = 3;
-        //if (Input.GetKeyDown(KeyCode.Alpha5)) selectItem = 4;
-        //if (Input.GetKeyDown(KeyCode.Alpha6)) selectItem = 5;
-
-        if (Input.GetMouseButtonDown(1))
+           
+        
+        if (inventory.activeSelf == true)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            touchOn = false;
-
-            if (Physics.Raycast(ray, out hit))
+            if (Input.GetMouseButtonUp(0))
             {
-                GameObject item = Instantiate(items[selectItem], hit.point, Quaternion.identity);
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
 
-                ItemInfo data = new ItemInfo();
-                data.type = selectItem;
-                data.pos = hit.point;
+                    if (Physics.Raycast(ray, out hit))
+                    {
+                        GameObject item = Instantiate(items[selectItem], hit.point, Quaternion.identity);
 
-                data.rot = item.transform.eulerAngles;
+                        ItemInfo data = new ItemInfo();
+                        data.type = selectItem;
+                        data.pos = hit.point;
 
-                DataBaseManager.instance.itemDatas.Add(data);
+                        data.rot = item.transform.eulerAngles;
 
-                //touchOn = false;
-
-                //if (Input.touchCount > 0)
-                //{    //터치가 1개 이상이면
-                //    for (int i = 0; i < Input.touchCount; i++)
-                //    {
-                //        tempTouchs = Input.GetTouch(i);
-                //        //touch phase
-                //        if (tempTouchs.phase == TouchPhase.Began)
-                //        {
-                //            //Get world position
-                //            touchedPos = Camera.main.ScreenToWorldPoint(tempTouchs.position);
-                //            touchOn = true;
-                //        }
-                //        else if (tempTouchs.phase == TouchPhase.Ended)
-                //        {   
-                            
-
-                //            break;   
-                //        }
-                //    }
-                //}
-                
+                        DataBaseManager.instance.itemDatas.Add(data);
+                    }
+                }                   
             }
         }
     }
@@ -223,11 +225,14 @@ public class GameManager_HYO : MonoBehaviour
     public GameObject friendscrollView;
     public void OnClickFriendsBtn()
     {
-        friendscrollView.SetActive(true);
-    }
-    public void ExitFriendsView()
-    {
-        friendscrollView.SetActive(false);
+        if (friendscrollView.activeSelf == false)
+        {
+            friendscrollView.SetActive(true);
+        }
+        else
+        {
+            friendscrollView.SetActive(false);
+        }
     }
     
     //add friend
